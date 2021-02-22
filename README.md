@@ -6,7 +6,7 @@
 
 👯 I'm looking to collaborate in any project of software, where I can implement techniques like DL or where can use programming languages ​​like Python, Haskell, Java, C, or C #, although I'm always willing to learn a lot more.
 
- 📫 You can reach me in my social networks, here I leave to you some of these [LinkIn](https://www.linkedin.com/in/fabi%C3%A1n-vega-alcota-278b37180/), [Twitter](https://twitter.com/fabianmativeal) y [Facebook](https://www.facebook.com/fabianmatias.vegaalcota).
+ 📫 You can reach me in my social networks, here I leave to you some of these [LinkedIn](https://www.linkedin.com/in/fabi%C3%A1n-vega-alcota-278b37180/), [Twitter](https://twitter.com/fabianmativeal) y [Facebook](https://www.facebook.com/fabianmatias.vegaalcota).
 
 <!--
 **FabianVegaA/FabianVegaA** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
