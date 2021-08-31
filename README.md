@@ -1,10 +1,10 @@
 ### Hello, everyone 👋
 
-🔭 I'm currently a student of Computer Engineering at Universidad Técnica Fedrico Santa María, from Chile.
+🔭  I'm currently a Computer Engineering student at Federico Santa María Technical University, from Chile. I'm also a Python developer and developer of the core of SigmaF a new functional programming language.
 
-🌱 At this moment, I'm learning each day a bit more about Data Science and Machine Learning, with courses of [Platzi](https://platzi.com/p/fabianveal/) and of other platforms, here you can look more about the courses that I have made [link](https://www.linkedin.com/in/fabi%C3%A1n-vega-alcota-278b37180/).
+🌱 At this moment, I'm learning each day a bit more about programming, Data Engineering, and Machine Learning, with self-teaching using articles, books, courses of [Platzi](https://platzi.com/p/fabianveal/), and of other platforms, here you can look more about the courses that I have made [link](https://www.linkedin.com/in/fabi%C3%A1n-vega-alcota-278b37180/).
 
-👯 I'm looking to collaborate in any project of software, where I can implement techniques like DL or where can use programming languages ​​like Python, Haskell, Java, C, or C #, although I'm always willing to learn a lot more.
+ 👐 I'm looking to collaborate in any project of software, where I can apport my knowledge in programming with programming languages like Python, Haskell, C, or C#, although I'm always willing to learn a lot more.
 
  📫 You can reach me in my social networks, here I leave to you some of these [LinkedIn](https://www.linkedin.com/in/fabi%C3%A1n-vega-alcota-278b37180/), [Twitter](https://twitter.com/fabianmativeal) y [Facebook](https://www.facebook.com/fabianmatias.vegaalcota).
 
