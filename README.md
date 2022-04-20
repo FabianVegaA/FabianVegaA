@@ -1,12 +1,14 @@
-### Hello, everyone 👋
+### Hello, everyone, I'm Fabián 😎
 
-🔭  I'm currently a Computer Engineering student at Federico Santa María Technical University, from Chile. I'm also a Python developer and developer of the core of SigmaF a new functional programming language.
+🔭 I'm currently a Computer Engineering student at Federico Santa María Technical University, from Chile. I'm also a Python developer and beginning **Haskell** programming language.
 
-🌱 At this moment, I'm learning each day a bit more about programming, Data Engineering, and Machine Learning, with self-teaching using articles, books, courses of [Platzi](https://platzi.com/p/fabianveal/), and of other platforms, here you can look more about the courses that I have made [link](https://www.linkedin.com/in/fabi%C3%A1n-vega-alcota-278b37180/).
+🌱 I'm passionate about learn things about functional programming, Haskell, Python, computer science, math, AI etc. Suggestions accepted about books, articles, videos, tutorial and so on. You can find me on Twitter as [@fabianmativeal](https://twitter.com/fabianmativeal).
 
- 👐 I'm looking to collaborate in any project of software, where I can apport my knowledge in programming with programming languages like Python, Haskell, C, or C#, although I'm always willing to learn a lot more.
-
- 📫 You can reach me in my social networks, here I leave to you some of these [LinkedIn](https://www.linkedin.com/in/fabi%C3%A1n-vega-alcota-278b37180/), [Twitter](https://twitter.com/fabianmativeal) y [Facebook](https://www.facebook.com/fabianmatias.vegaalcota).
+👐 I'm interested in continuing learning about programming languages (PL), functional programming (FP), math related with the FP, and the technologies related to the Data engineering. Also, I make up one's mind to participate in project of software development that use FP and development of  PL.
+ 
+ 📫 You can reach me in my networks: 
+  - [Twitter](https://twitter.com/fabianmativeal)
+  - [LinkedIn](https://www.linkedin.com/in/fabian-vega-alcota/)
 
 <!--
 **FabianVegaA/FabianVegaA** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
