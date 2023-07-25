@@ -1,4 +1,39 @@
-### Hello, everyone, I'm Fabián 😎
+# **Fabián Vega** :computer:
+
+* **Computer Engineering student at Federico Santa María Technical University, Chile.** 🇨🇱
+* **Software Developer.** 🚀
+* **Passionate about functional programming, software, math, AI, and computer science.** 🤓
+
+**Skills:**
+
+* Programming languages: Python, Haskell, Elm, Typescript
+* Functional programming :heavy_check_mark:
+* Object-oriented programming :scroll:
+* Data structures and algorithms :thinking:
+* Data engineering :chart_with_upwards_trend:
+
+**Experience:**
+
+* Developed a Python web application and REST APIs.
+* Developed a library to like Haskell programming in Python :heart:.
+* Developed a Game using Elm, [The Wizard Frogy](https://the-wizard-frogy.netlify.app) :frog:.
+
+**Interests:**
+
+* Functional programming
+* Category theory | Type theory | Formal verification
+* AI | Machine learning | Cellular Automate
+* Open source software
+
+**Open to suggestions for books, articles, videos, and tutorials.** :book:
+
+**Connect with me:**
+
+* [GitHub](https://github.com/FabianVegaA) :octocat:
+* [Twitter](https://twitter.com/fabianmativeal) 🐦
+* [LinkedIn](https://www.linkedin.com/in/fabian-vega-alcota/) 💼
+
+<!--### Hello, everyone, I'm Fabián 😎
 
 🔭 I'm currently a Computer Engineering student at Federico Santa María Technical University, from Chile. I'm also a Python developer and beginning **Haskell** programming language.
 
@@ -9,7 +44,7 @@
  📫 You can reach me in my networks: 
   - [Twitter](https://twitter.com/fabianmativeal)
   - [LinkedIn](https://www.linkedin.com/in/fabian-vega-alcota/)
-
+-->
 <!--
 **FabianVegaA/FabianVegaA** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
