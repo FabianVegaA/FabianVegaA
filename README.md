@@ -2,7 +2,6 @@
 
 * **Software Developer.** 🚀
 * **Passionate about functional programming, software engineering, math, AI, and computer science.**
-* - 
 
 **Interests:**
 
