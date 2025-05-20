@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Juego de Adivinar la Palabra</title>
+        <style>
+            body {
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #89f7fe, #66a6ff);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                margin: 0;
+                padding: 1rem;
+                color: #333;
+            }
+            .game-container {
+                background: white;
+                padding: 2rem;
+                border-radius: 15px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+                text-align: center;
+                width: 100%;
+                max-width: 400px;
+                transition: transform 0.3s;
+            }
+            .game-container:hover {
+                transform: scale(1.02);
+            }
+            h1 {
+                color: #444;
+                margin-bottom: 1rem;
+            }
+            .word-display {
+                font-size: 2.2rem;
+                margin: 1.5rem 0;
+                letter-spacing: 0.6rem;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+            .letter-box {
+                width: 2rem;
+                height: 2.5rem;
+                border-bottom: 2px solid #333;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2rem;
+            }
+            .space-box {
+                width: 2rem;
+                height: 2.5rem;
+                border-bottom: none;
+                background-color: #eef5ff;
+            }
+            .input-letter {
+                padding: 0.6rem;
+                font-size: 1.8rem;
+                width: 60px;
+                text-align: center;
+                margin-top: 1rem;
+                border: 2px solid #66a6ff;
+                border-radius: 8px;
+                outline: none;
+            }
+            .input-letter:focus {
+                border-color: #4b9eff;
+            }
+            .status {
+                margin: 1rem 0;
+                font-size: 1.1rem;
+            }
+            #copyButton {
+                margin-top: 1rem;
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+                background-color: #66a6ff;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+            #copyButton:hover {
+                background-color: #4b9eff;
+            }
+            .hidden {
+                display: none;
+            }
+            .code-box {
+                background-color: #f0f4ff;
+                border: 2px dashed #66a6ff;
+                border-radius: 10px;
+                padding: 1rem;
+                margin-top: 1rem;
+                word-break: break-word;
+                font-family: monospace;
+                color: #333;
+            }
+            #counter {
+                margin-top: 1rem;
+                font-weight: bold;
+                font-size: 1.1rem;
+                color: #555;
+            }
+            #sendLabel {
+                font-weight: bold;
+                color: #004080;
+                margin-top: 1.5rem;
+            }
+            .progress-bar-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background-color: rgba(255, 255, 255, 0.3);
+                z-index: 1000;
+            }
+            .progress-bar {
+                height: 100%;
+                background-color: #004080;
+                width: 100%;
+                transition: width 1s linear;
+            }
+            .keyboard {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+            .key {
+                padding: 0.5rem 0.8rem;
+                background-color: #e0eaff;
+                border-radius: 6px;
+                cursor: pointer;
+                user-select: none;
+                font-size: 1.1rem;
+                min-width: 32px;
+                text-align: center;
+                transition: background-color 0.3s ease;
+            }
+            .key:hover {
+                background-color: #c2dbff;
+            }
+            .key.pressed {
+                background-color: #99b3ff;
+            }
+            @media (max-width: 480px) {
+                .word-display {
+                    font-size: 1.5rem;
+                }
+                .input-letter {
+                    font-size: 1.4rem;
+                    width: 50px;
+                }
+                .status {
+                    font-size: 1rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="game-container" id="gameContainer">
+            <h1>Adivina el Título del Libro</h1>
+            <div id="counter"></div>
+            <div class="word-display" id="wordDisplay"></div>
+            <input
+                type="text"
+                maxlength="1"
+                id="letterInput"
+                class="input-letter"
+                autofocus
+            />
+            <div id="keyboard" class="keyboard"></div>
+            <div class="status">
+                <p>Intentos: <span id="score">5</span></p>
+                <p>Tiempo restante: <span id="timer">30</span>s</p>
+                <p id="message"></p>
+                <p id="sendLabel" class="hidden">Envía el código a Camilú</p>
+                <div id="codeBox" class="code-box hidden"></div>
+                <button id="copyButton" class="hidden">Copiar Código</button>
+            </div>
+        </div>
+        <div class="game-container hidden" id="errorContainer">
+            <h2>Error</h2>
+            <p>
+                No se pudo decodificar la lista de libros. Asegúrate de que el
+                código en la URL sea válido.
+            </p>
+        </div>
+
+        <script>
+            internalBooks = [
+                "TGEgSWxpYWRh",
+                "TGEgT2Rpc2Vh",
+                "T3JndWxsbyB5IFByZWp1aWNpbw==",
+                "TGEgRGl2aW5hIENvbWVkaWE=",
+                "RWwgU29jaW8=",
+                "UGFwZWx1Y2hv",
+                "RWwgUXVpam90ZSBkZSBsYSBNYW5jaGE=",
+                "Q2F6YWRvcmVzIGRlIFNvbWJyYXM=",
+                "Um9tZW8geSBKdWxpZXRh",
+                "QWxhcyBkZSBzYW5ncmU=",
+                "Q2lyY2U=",
+                "Tm92aWE=",
+                "RnJhbmtlbnN0ZWlu",
+                "RWwgaG9tYnJlIGludmlzaWJsZQ==",
+                "TGEgYW1vcnRhamFkYQ==",
+                "RWwgcmV0cmF0byBkZSBOb3JpYW4gR3JleQ==",
+                "Q2F0ZWRyYWxlcw==",
+                "TGEgY2FzYSBkZSBsb3MgZXNwaXJpdHVz",
+                "TGEgY2l1ZGFkIGRlIGxhcyBiZXN0aWFz",
+                "TWF0aWxkZSBkZWJlIE1vcmly",
+                "QWwgZmluYWwgbXVlcmVuIGxvcyBkb3M=",
+                "RG9uZGUgbG9zIGFyYm9sZXMgY2FudGFu",
+                "RWwgYWxiZXJndWUgZGUgbGFzIG11amVyZXMgdHJpc3Rlcw==",
+                "QXJzZW5lIEx1cGlu",
+                "Q2FyY29tYQ==",
+                "Q29sb3F1aW8gZW4gQ2ljaWxpYQ==",
+                "RWwgZmFybyBkZWwgZmluIGRlbCBtdW5kbw==",
+                "TGEgY2xhc2UgZGUgZ3JpZWdv",
+                "RGlleiBjb3NhcyBxdWUgdW5hIG11amVyIG5vIGRlYmUgaGFjZXIgZW4gQ2hpbGU=",
+                "RWwgcHJpbmNpcGUgY3J1ZWw=",
+                "UGVsZWEgZGUgZ2FsbG9z",
+                "SGllcmJh",
+                "TGEgY29udGFkb3JhIGRlIHBlbGljdWxhcw==",
+                "RWwgbGlicm8gc2luIG5vbWJyZQ==",
+                "RWwgY2FuaWJhbCBkZSBsYWd1bmEgdmVyZGU=",
+                "TG9zIGp1ZWdvcyBkZWwgaGFtYnJl",
+                "SHVzaCBIdXNo",
+                "Q3JlcHVzY3Vsbw==",
+                "TWFnbyBkZSBveg==",
+                "TGFzIG1pbCB5IHVuYSBub2NoZQ==",
+                "VW5hIGNvcnRlIGRlIHJvc2FzIHkgZXNwaW5hcw==",
+                "U2VpcyBncnVsbGFz",
+                "RWxlYW5vciB5IFBhcms=",
+                "Q2Fyb2w=",
+                "VW5hIGhhYml0YWNpb24gcHJvcGlh",
+                "RWwgY29uZGUgZGUgTW9udGVDcmlzdG8=",
+                "RWwgcHJpbmNpcGl0bw==",
+                "Q2FiYWxsbyBkZSBUcm95YQ==",
+                "TGFzIGNyb25pY2FzIGRlIG5hcm5pYQ==",
+                "SGFycnkgUG90dGVyIHkgbGEgcGllZHJhIGZpbG9zb2ZhbA==",
+                "SGFycnkgUG90dGVyIHkgbGEgY2FtYXJhIHNlY3JldGE=",
+                "SGFycnkgUG90dGVyIHkgZWwgcHJpc2lvbmVybyBkZSBBemthYmFu",
+                "SGFycnkgUG90dGVyIHkgZWwgY2FsaXogZGUgZnVlZ28=",
+                "SGFycnkgUG90dGVyIHkgbGEgb3JkZW4gZGVsIGZlbml4",
+                "SGFycnkgUG90dGVyIHkgZWwgcHJpbmNpcGUgbWlzdGVyaW9zbw==",
+                "SGFycnkgUG90dGVyIHkgbGFzIHJlbGlxdWlhcyBkZSBsYSBtdWVydGU=",
+            ];
+
+            // Objeto para manejar el estado global del juego
+            const gameState = {
+                bookList: [],
+                currentIndex: 0,
+                currentWord: "",
+                display: [],
+                fillCharacter: "",
+                score: 0,
+                timeLeft: 0,
+                timer: null,
+                startTime: null,
+            };
+
+            // Elementos DOM
+            const elements = {
+                wordDisplay: document.getElementById("wordDisplay"),
+                scoreDisplay: document.getElementById("score"),
+                timerDisplay: document.getElementById("timer"),
+                messageDisplay: document.getElementById("message"),
+                letterInput: document.getElementById("letterInput"),
+                keyboard: document.getElementById("keyboard"),
+                copyButton: document.getElementById("copyButton"),
+                codeBox: document.getElementById("codeBox"),
+                counter: document.getElementById("counter"),
+                sendLabel: document.getElementById("sendLabel"),
+                progressBar: document.getElementById("progressBar"),
+            };
+
+            // Inicializar el juego
+            initGame();
+
+            // Función para obtener parámetros de la URL
+            function getQueryParam(param) {
+                const params = new URLSearchParams(window.location.search);
+                return params.get(param);
+            }
+
+            // Inicializa el juego
+            function initGame() {
+                try {
+                    const encodedBooks = getQueryParam("w");
+                    if (encodedBooks) {
+                        try {
+                            const decoded = atob(encodedBooks);
+                            gameState.bookList = decoded
+                                .split(";")
+                                .map((book) => book.trim().toLowerCase())
+                                .filter(Boolean);
+                        } catch (error) {
+                            console.error("Error decoding books:", error);
+                        }
+                    } else {
+                        gameState.bookList = Array.from({ length: 10 }, () => {
+                            const index = Math.floor(
+                                Math.random() * internalBooks.length,
+                            );
+                            return atob(internalBooks[index])
+                                .trim()
+                                .toLowerCase();
+                        });
+                    }
+
+                    const fillCharacters = [
+                        "😇",
+                        "🥰",
+                        "😘",
+                        "😋",
+                        "🤗",
+                        "🤭",
+                        "🤫",
+                        "🫣",
+                        "😌",
+                    ];
+                    gameState.fillCharacter =
+                        fillCharacters[
+                            Math.floor(Math.random() * fillCharacters.length)
+                        ];
+
+                    gameState.score = Math.max(
+                        3,
+                        Math.floor(gameState.bookList.length / 2),
+                    );
+                    elements.scoreDisplay.textContent = gameState.score;
+
+                    gameState.timeLeft = 60 * gameState.bookList.length;
+                    gameState.startTime = new Date().toISOString();
+
+                    // Configurar la primera palabra
+                    setupNewWord(0);
+
+                    // Actualizar UI
+                    updateCounter();
+                    createKeyboard();
+
+                    // Iniciar temporizador
+                    gameState.timer = setInterval(updateTimer, 1000);
+
+                    // Configurar eventos
+                    elements.letterInput.addEventListener(
+                        "input",
+                        handleInputEvent,
+                    );
+                } catch (e) {
+                    document
+                        .getElementById("gameContainer")
+                        .classList.add("hidden");
+                    document
+                        .getElementById("errorContainer")
+                        .classList.remove("hidden");
+                    console.error(e);
+                }
+            }
+
+            // Prepara una nueva palabra
+            function setupNewWord(index) {
+                gameState.currentIndex = index;
+                gameState.currentWord = gameState.bookList[index];
+                gameState.display = gameState.currentWord
+                    .split("")
+                    .map((c) => (c !== " " ? gameState.fillCharacter : " "));
+                renderDisplay();
+            }
+
+            // Actualiza el temporizador
+            function updateTimer() {
+                gameState.timeLeft--;
+                elements.timerDisplay.textContent = gameState.timeLeft;
+
+                const percentage =
+                    (gameState.timeLeft / (60 * gameState.bookList.length)) *
+                    100;
+                elements.progressBar.style.width = `${percentage}%`;
+
+                if (gameState.timeLeft <= 0) {
+                    clearInterval(gameState.timer);
+                    endGame("¡Tiempo terminado!", true);
+                }
+            }
+
+            // Maneja el evento de entrada
+            function handleInputEvent() {
+                const letter = elements.letterInput.value.toLowerCase();
+                elements.letterInput.value = "";
+                if (letter) {
+                    handleLetterGuess(letter);
+                }
+            }
+
+            // Procesa la letra ingresada
+            function handleLetterGuess(letter) {
+                // Validar que solo se acepten letras y espacios
+                if (!letter.match(/[a-zñáéíóúü ]/i)) return;
+
+                // Procesar la letra y obtener el resultado
+                const result = processLetterGuess(letter);
+
+                // Manejar el resultado
+                handleGuessResult(result);
+            }
+
+            // Procesa la letra y devuelve un resultado
+            function processLetterGuess(letter) {
+                let correct = false;
+
+                // Verificar si la letra está en la palabra y actualizar el display
+                for (let i = 0; i < gameState.currentWord.length; i++) {
+                    if (
+                        gameState.currentWord[i] === letter &&
+                        gameState.display[i] === gameState.fillCharacter
+                    ) {
+                        gameState.display[i] = letter;
+                        correct = true;
+                    }
+                }
+
+                // Penalizar si no hay coincidencia
+                if (!correct) {
+                    gameState.score--;
+                    elements.scoreDisplay.textContent = gameState.score;
+                }
+
+                // Renderizar display actualizado
+                renderDisplay();
+
+                // Devolver resultado del procesamiento
+                return {
+                    correct: correct,
+                    wordCompleted:
+                        gameState.display.join("") === gameState.currentWord,
+                    outOfPoints: gameState.score <= 0,
+                };
+            }
+
+            // Maneja el resultado del procesamiento
+            function handleGuessResult(result) {
+                // Verificar si se completó la palabra
+                if (result.wordCompleted) {
+                    gameState.currentIndex++;
+                    updateCounter();
+
+                    // Verificar si se completaron todas las palabras
+                    if (gameState.currentIndex >= gameState.bookList.length) {
+                        clearInterval(gameState.timer);
+                        endGame(
+                            "¡Felicidades! Has adivinado todos los libros.",
+                            false,
+                        );
+                        return;
+                    }
+
+                    // Configurar la siguiente palabra
+                    setupNewWord(gameState.currentIndex);
+
+                    // Crear nuevo teclado para la palabra actual
+                    createKeyboard();
+                }
+
+                // Verificar si se agotaron los puntos
+                if (result.outOfPoints) {
+                    clearInterval(gameState.timer);
+                    endGame(
+                        `¡Perdiste! Se acabaron tus puntos.\nLa palabra era: "${gameState.currentWord}"`,
+                        false,
+                    );
+                }
+            }
+
+            // Renderiza el display de la palabra
+            function renderDisplay() {
+                // Usar documento fragmento para mejorar rendimiento
+                const fragment = document.createDocumentFragment();
+
+                gameState.display.forEach((char) => {
+                    const span = document.createElement("span");
+                    span.className = char === " " ? "space-box" : "letter-box";
+                    span.textContent = char;
+                    fragment.appendChild(span);
+                });
+
+                elements.wordDisplay.innerHTML = "";
+                elements.wordDisplay.appendChild(fragment);
+            }
+
+            // Crea el teclado en pantalla
+            function createKeyboard() {
+                // Obtener letras únicas de la palabra actual
+                const uniqueLetters = [
+                    ...new Set(gameState.currentWord.replace(/ /g, "")),
+                ];
+
+                // Calcular cuántas letras adicionales se necesitan
+                const extraCount = Math.max(
+                    1,
+                    Math.ceil(uniqueLetters.length * 0.75),
+                );
+
+                // Obtener alfabeto completo
+                const alphabet = "abcdefghijklmnopqrstuvwxyzñ";
+                const availableLetters = [...alphabet].filter(
+                    (l) => !uniqueLetters.includes(l),
+                );
+
+                // Añadir letras aleatorias adicionales
+                for (
+                    let i = 0;
+                    i < extraCount && availableLetters.length > 0;
+                    i++
+                ) {
+                    const randomIndex = Math.floor(
+                        Math.random() * availableLetters.length,
+                    );
+                    const randomLetter = availableLetters.splice(
+                        randomIndex,
+                        1,
+                    )[0];
+                    uniqueLetters.push(randomLetter);
+                }
+
+                // Mezclar las letras
+                uniqueLetters.sort(() => Math.random() - 0.5);
+
+                // Crear el teclado usando un fragmento
+                const fragment = document.createDocumentFragment();
+
+                uniqueLetters.forEach((letter) => {
+                    const btn = document.createElement("div");
+                    btn.className = `key key-${letter}`;
+                    btn.textContent = letter;
+                    // Usamos una función anónima para evitar la recursión
+                    btn.onclick = function () {
+                        handleLetterGuess(letter);
+                        // Add class `pressed`
+                        btn.classList.add("pressed");
+                    };
+                    fragment.appendChild(btn);
+                });
+
+                elements.keyboard.innerHTML = "";
+                elements.keyboard.appendChild(fragment);
+            }
+
+            // Finaliza el juego
+            function endGame(msg, isTimeout = false) {
+                elements.messageDisplay.textContent = msg;
+                elements.letterInput.classList.add("hidden");
+                elements.keyboard.classList.add("hidden");
+
+                const code = btoa(
+                    JSON.stringify({
+                        word: gameState.currentWord,
+                        score: gameState.score,
+                        timeLeft: gameState.timeLeft,
+                        startTime: gameState.startTime,
+                    }),
+                );
+
+                elements.sendLabel.classList.remove("hidden");
+                elements.codeBox.textContent = code;
+                elements.codeBox.classList.remove("hidden");
+                elements.copyButton.classList.remove("hidden");
+
+                elements.copyButton.onclick = () => {
+                    navigator.clipboard.writeText(code).then(() => {
+                        alert("Código copiado al portapapeles");
+                    });
+                };
+            }
+
+            // Actualiza el contador de progreso
+            function updateCounter() {
+                elements.counter.textContent = `Libro ${gameState.currentIndex + 1} de ${gameState.bookList.length}`;
+            }
+        </script>
+    </body>
+</html>
