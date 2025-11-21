@@ -1,13 +1,15 @@
-# **Fabián Vega** :computer:
+# **Fabián Vega Alcota** - **Software Developer** 
 
-* **Software Developer.** 🚀
-* **Passionate about functional programming, software engineering, math, AI, and computer science.**
+## About Me
 
-**Interests:**
+I'm passionate about building robust, mathematically-sound software systems.
 
-* Functional programming
-* Category theory | Type theory | Formal verification
-* AI | Machine learning
+## Areas of Interest
+
+- **Programming Paradigms:** Functional programming, type-driven development
+- **Formal Methods:** Category theory, type theory, formal verification
+- **Programming Languages:** Language design and implementation
+- **AI & Machine Learning:** Applied machine learning, AI safety
 
 **Connect with me:**
 
@@ -15,3 +17,7 @@
 * [Twitter](https://twitter.com/fabianmativeal)
 * [Mastodon](@fabianveal@techhub.social)
 * [LinkedIn](https://www.linkedin.com/in/fabian-vega-alcota/)
+
+---
+
+*Open to collaboration on projects involving programming languages, formal verification, and AI research.*
