@@ -2,7 +2,7 @@
 
 ## About Me
 
-I'm passionate about building robust, mathematically-sound software systems.
+I'm a software developer passionate about building robust, mathematically-sound software systems.
 
 ## Areas of Interest
 
